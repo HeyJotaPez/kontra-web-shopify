@@ -1,0 +1,98 @@
+{{ 'section.custom-slide.css' | asset_url | stylesheet_tag }}
+
+<!-- Slider main container -->
+<div class="swiper">
+  <!-- Additional required wrapper -->
+  <div class="swiper-wrapper">
+    <!-- Slides -->
+    {%- for block in section.blocks %}
+      <div class="swiper-slide">
+        <article class="slide-content">
+          <h2>
+            {{ block.settings.slide_text }}
+          </h2>
+          <a href="{{ block.settings.link_url }}">{{ block.settings.link_text }}</a>
+        </article>
+        <img src="{{ block.settings.Slider_image | image_url }}" alt="slide-image">
+      </div>
+    {%- endfor -%}
+    <div class="swiper-slide">Slide 1</div>
+    <div class="swiper-slide">Slide 2</div>
+    <div class="swiper-slide">Slide 3</div>
+    ...
+  </div>
+  <!-- If we need pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+
+  <!-- If we need scrollbar -->
+  <div class="swiper-scrollbar"></div>
+</div>
+
+<script>
+  const swiper = new Swiper('.swiper', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+
+    // If we need pagination
+    {% comment %} pagination: {
+      el: '.swiper-pagination',
+    }, {% endcomment %}
+
+    // Navigation arrows
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+      el: '.swiper-scrollbar',
+    },
+  });
+</script>
+{% schema %}
+{
+  "name": "Custom slider - Banner",
+
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Esto es un label",
+      "default": "Esto es tecto por defecto",
+      "info": "Info sobre este setting",
+      "placeholder": "Esto es el placeholder"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "slide_text",
+          "label": "Titulo para el Slide"
+        },
+        { "type": "image_picker", "id": "Slider_image", "label": "Selecciona la imagen de tu banner" },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Ver más"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Url"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
